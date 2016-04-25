@@ -1,49 +1,66 @@
-﻿using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.Linq;
-using System.Windows;
+﻿using System.Linq;
+using ReactiveUI;
+using ReactiveUI.Fody.Helpers;
+using System;
+using System.Reactive.Linq;
 
 namespace Hearthstone_Treasury.ViewModels
 {
-    public class MainWindowViewModel : DependencyObject
+    public class MainWindowViewModel : ReactiveObject
     {
-        public MainWindowViewModel(ObservableCollection<TransactionViewModel> transactionsList)
+        private PluginSettingsViewModel _settings;
+
+        public MainWindowViewModel(PluginSettingsViewModel settings, ReactiveList<TransactionViewModel> transactionsList)
         {
-            Balance = HearthstoneTreasuryPlugin.Settings.InitialBalance;
+            _settings = settings;
+            Balance = _settings.InitialBalance;
 
             Transactions = transactionsList;
-            Transactions.CollectionChanged += UpdateBalance;
+            Transactions.ItemChanged.Subscribe(x => UpdateBalance());
+            Transactions.Changed.Subscribe(x => UpdateBalance());
+
+            settings.WhenAnyValue(s => s.InitialBalance).Subscribe(x => UpdateBalance());
+
+            DistributionChart = new DistributionChartViewModel(Transactions);
         }
 
-        private void UpdateBalance(object sender, NotifyCollectionChangedEventArgs e)
+        private void UpdateBalance()
         {
-            Balance = HearthstoneTreasuryPlugin.Settings.InitialBalance + Transactions.Sum(x => x.Difference);
+            int finalBalance = _settings.InitialBalance;
+            if (Transactions.Any())
+            {
+                finalBalance += Transactions.Sum(x => x.Difference);
+            }
+            Balance = finalBalance; 
+
+            double days = 1;
+            if (Transactions.Any())
+            {
+                var daysDifference = Transactions.Max(t => t.Moment) - Transactions.Min(t => t.Moment);
+                if (daysDifference.TotalDays > 0)
+                {
+                    days = daysDifference.TotalDays;
+                }
+            }
+            var goldIncome = Transactions.Where(t => t.Difference > 0).Sum(t => t.Difference);
+            var goldOutcome = Transactions.Where(t => t.Difference < 0).Sum(t => t.Difference);
+            var goldTotal = Transactions.Sum(t => t.Difference);
+            GoldVelocity = $"+{goldIncome / days:N2} | {goldOutcome / days:N2} | {(goldTotal > 0 ? "+" : "")}{goldTotal / days:N2}";
         }
 
-        public static readonly DependencyProperty TransactionsProperty = DependencyProperty.Register("Transactions", typeof(ObservableCollection<TransactionViewModel>), typeof(MainWindowViewModel), new UIPropertyMetadata(new ObservableCollection<TransactionViewModel>()));
-        public ObservableCollection<TransactionViewModel> Transactions
-        {
-            get
-            {
-                return (ObservableCollection<TransactionViewModel>)GetValue(TransactionsProperty);
-            }
-            set
-            {
-                SetValue(TransactionsProperty, value);
-            }
-        }
+        [Reactive]
+        public ReactiveList<TransactionViewModel> Transactions { get; set; }
 
-        public static readonly DependencyProperty BalanceProperty = DependencyProperty.Register("Balance", typeof(int), typeof(MainWindowViewModel));
-        public int Balance
-        {
-            get
-            {
-                return (int)GetValue(BalanceProperty);
-            }
-            set
-            {
-                SetValue(BalanceProperty, value);
-            }
-        }
+        [Reactive]
+        public int Balance { get; set; }
+
+        [Reactive]
+        public PluginSettingsViewModel Settings { get; set; }
+
+        [Reactive]
+        public string GoldVelocity { get; set; }
+
+        [Reactive]
+        public DistributionChartViewModel DistributionChart { get; set; }
     }
 }

@@ -1,0 +1,28 @@
+﻿<Controls:MetroWindow x:Class="Hearthstone_Treasury.Controls.SettingsWindow"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Hearthstone_Treasury.Controls"
+             xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+             mc:Ignorable="d" 
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"
+             BorderBrush="{DynamicResource AccentColorBrush}" BorderThickness="1"
+             d:DesignHeight="300" d:DesignWidth="300">
+    <StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <Label Content="Initial Balance" />
+            <TextBox Width="50">
+                <TextBox.Text>
+                    <Binding Path="InitialBalance" Mode="TwoWay" NotifyOnValidationError="True">
+                        <Binding.ValidationRules>
+                            <DataErrorValidationRule ValidatesOnTargetUpdated="True"/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+            <Button Content="Apply" />
+        </StackPanel>
+    </StackPanel>
+</Controls:MetroWindow>

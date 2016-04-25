@@ -13,25 +13,40 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <ScrollViewer Margin="0, 0, 2, 0">
         <WrapPanel Orientation="Vertical">
-            <StackPanel Orientation="Horizontal">
-                <Label>Current balance:</Label>
-                <Label Content="{Binding Balance}"></Label>
-            </StackPanel>
-            <DataGrid ItemsSource="{Binding Transactions}" AutoGenerateColumns="False">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0" Orientation="Horizontal">
+                    <Label>Current balance:</Label>
+                    <Label Content="{Binding Balance}"></Label>
+                </StackPanel>
+                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                    <Label>Gold per day:</Label>
+                    <Label Content="{Binding GoldVelocity}"></Label>
+                </StackPanel>
+            </Grid>
+            <local:DistributionChart DataContext="{Binding DistributionChart}" ></local:DistributionChart>
+                                   <!--  Width="{Binding Path=Width,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=UserControl}}"
+                                     Height="{Binding Path=Height,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=UserControl}}"
+                                     />-->
+            <DataGrid ItemsSource="{Binding Transactions}" AutoGenerateColumns="False" CanUserReorderColumns="False">
                 <DataGrid.Resources>
-                        <ObjectDataProvider x:Key="categoryEnum" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
-                            <ObjectDataProvider.MethodParameters>
-                                <x:Type Type="Models:CategoryEnum"/>
-                            </ObjectDataProvider.MethodParameters>
-                        </ObjectDataProvider>
-                    </DataGrid.Resources>
+                    <ObjectDataProvider x:Key="categoryEnum" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
+                        <ObjectDataProvider.MethodParameters>
+                            <x:Type Type="Models:CategoryEnum"/>
+                        </ObjectDataProvider.MethodParameters>
+                    </ObjectDataProvider>
+                </DataGrid.Resources>
                 <DataGrid.Columns>
-                    <DataGridTextColumn Binding="{Binding Moment}" Header="When"/>
+                    <DataGridTextColumn Binding="{Binding Moment}" Header="When" SortDirection="Ascending"/>
                     <DataGridComboBoxColumn  Header="Category" SelectedItemBinding="{Binding Category}" ItemsSource="{Binding Source={StaticResource categoryEnum}}"/>
                     <DataGridTextColumn Binding="{Binding Difference}" Header="Difference"/>
+                    <DataGridTextColumn Binding="{Binding Comment}" Header="Comments" />
                 </DataGrid.Columns>
             </DataGrid>
-            
+
         </WrapPanel>
     </ScrollViewer>
 </Controls:MetroWindow>

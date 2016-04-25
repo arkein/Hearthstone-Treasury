@@ -1,5 +1,6 @@
 ﻿using System;
-using System.Windows;
+using ReactiveUI;
+using ReactiveUI.Fody.Helpers;
 
 namespace Hearthstone_Treasury.ViewModels
 {
@@ -14,50 +15,23 @@ namespace Hearthstone_Treasury.ViewModels
     }
 
     [Serializable]
-    public class TransactionViewModel : DependencyObject
+    public class TransactionViewModel : ReactiveObject
     {
         public TransactionViewModel()
         {
-            Moment = DateTime.UtcNow;
+            Moment = DateTime.Now;
         }
 
-        public static readonly DependencyProperty MomentProperty = DependencyProperty.Register("Moment", typeof(DateTime), typeof(TransactionViewModel), new UIPropertyMetadata());
-        public DateTime Moment
-        {
-            get
-            {
-                return (DateTime)GetValue(MomentProperty);
-            }
-            set
-            {
-                SetValue(MomentProperty, value);
-            }
-        }
+        [Reactive]
+        public DateTime Moment { get; set; }
 
-        public static readonly DependencyProperty DifferenceProperty = DependencyProperty.Register("Difference", typeof(int), typeof(TransactionViewModel), new UIPropertyMetadata(0));
-        public int Difference
-        {
-            get
-            {
-                return (int)GetValue(DifferenceProperty);
-            }
-            set
-            {
-                SetValue(DifferenceProperty, value);
-            }
-        }
+        [Reactive]
+        public int Difference { get; set; }
 
-        public static readonly DependencyProperty CategoryProperty = DependencyProperty.Register("Category", typeof(CategoryEnum), typeof(TransactionViewModel), new UIPropertyMetadata());
-        public CategoryEnum Category
-        {
-            get
-            {
-                return (CategoryEnum)GetValue(CategoryProperty);
-            }
-            set
-            {
-                SetValue(CategoryProperty, value);
-            }
-        }
+        [Reactive]
+        public CategoryEnum Category { get; set; }
+
+        [Reactive]
+        public string Comment { get; set; }
     }
 }

@@ -1,24 +1,27 @@
 ﻿using Hearthstone_Deck_Tracker;
 using Hearthstone_Treasury.ViewModels;
-using System.Collections.ObjectModel;
 using System.IO;
+using ReactiveUI;
 
 namespace Hearthstone_Treasury
 {
+    //todo: save/load as list, then convert to rective
     public static class TransactionHelper
     {
-        public static ObservableCollection<TransactionViewModel> LoadTransactions(string path)
+        public static ReactiveList<TransactionViewModel> LoadTransactions(string path)
         {
             if (File.Exists(path))
             {
-                return XmlManager<ObservableCollection<TransactionViewModel>>.Load(path);
+                var list = XmlManager<ReactiveList<TransactionViewModel>>.Load(path);
+                list.ChangeTrackingEnabled = true;
+                return list;
             }
             return null;
         }
 
-        public static void SaveTransactions(ObservableCollection<TransactionViewModel> transactions, string path)
+        public static void SaveTransactions(ReactiveList<TransactionViewModel> transactions, string path)
         {
-            XmlManager<ObservableCollection<TransactionViewModel>>.Save(path, transactions);
+            XmlManager<ReactiveList<TransactionViewModel>>.Save(path, transactions);
         }
     }
 }

@@ -3,20 +3,22 @@ using Hearthstone_Treasury.ViewModels;
 using System;
 using System.IO;
 using System.Windows;
-using System.Collections.ObjectModel;
+using ReactiveUI;
 
 namespace Hearthstone_Treasury
 {
-    //1. Truly observable collection
-    //2. UTC to Local time
-    //3. Listen to 3 wins event
-    //4. Migrate to Reactive
+    //1. settings window/flyout
+    //2. add new transaction flyout
+    //3. Listen to 3 wins and other events
+    //3.5. Quest details, comments, re-rolls.
+    //4. Charts
     public class HearthstoneTreasuryPlugin : Hearthstone_Deck_Tracker.Plugins.IPlugin
     {
         internal static string PluginDataDir => Path.Combine(Hearthstone_Deck_Tracker.Config.Instance.DataDir, "Treasury");
         internal static string TransactionsFile => Path.Combine(PluginDataDir, "transactions.xml");
+        internal static string SettingsFile => Path.Combine(PluginDataDir, "treasury.config.xml");
 
-        public static PluginSettings Settings { get; set; }
+        private PluginSettingsViewModel Settings { get; set; }
 
         private readonly TreasuryMenuItem _menuItem = new TreasuryMenuItem { Header = "Treasury" };
 
@@ -25,6 +27,7 @@ namespace Hearthstone_Treasury
         private MainWindowViewModel _mainWindowModel;
 
         private MainWindow _mainWindow = null;
+        private SettingsWindow _settingsWindow = null;
 
         public string Author => "Arkein";
 
@@ -38,7 +41,15 @@ namespace Hearthstone_Treasury
 
         public void OnButtonPress()
         {
-            throw new NotImplementedException();
+            if (_settingsWindow == null)
+            {
+                InitializeSettingsWindow();
+                _settingsWindow.Show();
+            }
+            else
+            {
+                _settingsWindow.Activate();
+            }
         }
 
         public void OnLoad()
@@ -48,15 +59,16 @@ namespace Hearthstone_Treasury
                 Directory.CreateDirectory(PluginDataDir);
             }
 
-            Settings = PluginSettings.LoadSettings(PluginDataDir);
+            Settings = PluginSettingsViewModel.LoadSettings(SettingsFile);
 
-            var transactions = TransactionHelper.LoadTransactions(TransactionsFile) ?? new ObservableCollection<TransactionViewModel>()
+            var transactions = TransactionHelper.LoadTransactions(TransactionsFile) ?? new ReactiveList<TransactionViewModel>()
             {
                 new TransactionViewModel() { Moment = DateTime.UtcNow, Difference=-100, Category = CategoryEnum.Pack },
                 new TransactionViewModel() { Moment = DateTime.UtcNow.AddHours(1), Difference=+10, Category = CategoryEnum.Arena }
             };
+            transactions.ChangeTrackingEnabled = true;
 
-            _mainWindowModel = new MainWindowViewModel(transactions);
+            _mainWindowModel = new MainWindowViewModel(Settings, transactions);
 
             _menuItem.Click += (sender, args) =>
             {
@@ -98,8 +110,39 @@ namespace Hearthstone_Treasury
             }
         }
 
+        public void InitializeSettingsWindow()
+        {
+            if (_settingsWindow == null)
+            {
+                _settingsWindow = new SettingsWindow()
+                {
+                    Width = Settings.CollectionWindowWidth,
+                    Height = Settings.CollectionWindowHeight,
+                    MaxHeight = SystemParameters.PrimaryScreenHeight,
+                    MaxWidth = SystemParameters.PrimaryScreenWidth,
+                    Title = "Treasury Settings",
+                    DataContext = Settings
+                };
+
+                _settingsWindow.Closed += (sender, args) =>
+                {
+                    Settings.SaveSettings(SettingsFile);
+                    _settingsWindow = null;
+                };
+            }
+        }
+
         public void OnUnload()
         {
+            if (_settingsWindow != null)
+            {
+                if (_settingsWindow.IsVisible)
+                {
+                    _settingsWindow.Close();
+                }
+                _settingsWindow = null;
+            }
+
             if (_mainWindow != null)
             {
                 if (_mainWindow.IsVisible)
@@ -111,7 +154,7 @@ namespace Hearthstone_Treasury
 
             if (Settings != null)
             {
-                Settings.SaveSettings(PluginDataDir);
+                Settings.SaveSettings(SettingsFile);
             }
         }
 
