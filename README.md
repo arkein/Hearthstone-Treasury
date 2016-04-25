@@ -1,5 +1,5 @@
-# Hearthstone-Treasury
-Budget management plugin for Hearthstone Deck Tracker
+# Hearthstone Treasury
+Budget management plugin for Hearthstone Deck Tracker.
 
 Track your income and spendings in Hearthstone.
 Just set the current balance in plugin settings and remember to add a short line in transaction every time you get or spend gold.
