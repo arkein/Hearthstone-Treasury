@@ -11,18 +11,6 @@
              BorderBrush="{DynamicResource AccentColorBrush}" BorderThickness="1"
              d:DesignHeight="300" d:DesignWidth="300">
     <StackPanel>
-        <StackPanel Orientation="Horizontal">
-            <Label Content="Initial Balance" />
-            <TextBox Width="50">
-                <TextBox.Text>
-                    <Binding Path="InitialBalance" Mode="TwoWay" NotifyOnValidationError="True">
-                        <Binding.ValidationRules>
-                            <DataErrorValidationRule ValidatesOnTargetUpdated="True"/>
-                        </Binding.ValidationRules>
-                    </Binding>
-                </TextBox.Text>
-            </TextBox>
-            <Button Content="Apply" />
-        </StackPanel>
+        <local:SettingsControl/>
     </StackPanel>
 </Controls:MetroWindow>

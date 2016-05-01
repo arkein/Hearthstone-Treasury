@@ -19,8 +19,12 @@ namespace Hearthstone_Treasury.ViewModels
     {
         public TransactionViewModel()
         {
+            Id = Guid.NewGuid();
             Moment = DateTime.Now;
         }
+
+        [Reactive]
+        public Guid Id { get; set; }
 
         [Reactive]
         public DateTime Moment { get; set; }

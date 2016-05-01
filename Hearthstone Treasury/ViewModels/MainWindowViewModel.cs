@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using ReactiveUI;
+﻿using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using System;
 using System.Reactive.Linq;
@@ -8,59 +7,32 @@ namespace Hearthstone_Treasury.ViewModels
 {
     public class MainWindowViewModel : ReactiveObject
     {
-        private PluginSettingsViewModel _settings;
-
-        public MainWindowViewModel(PluginSettingsViewModel settings, ReactiveList<TransactionViewModel> transactionsList)
+        public MainWindowViewModel(PluginSettingsViewModel settings, TransactionListViewModel transactionsList)
         {
-            _settings = settings;
-            Balance = _settings.InitialBalance;
+            Settings = settings;
+            TransactionList = transactionsList;
+            Reports = new ReportControlViewModel(TransactionList);
+            Statistics = new StatisticsViewModel(settings, transactionsList);
 
-            Transactions = transactionsList;
-            Transactions.ItemChanged.Subscribe(x => UpdateBalance());
-            Transactions.Changed.Subscribe(x => UpdateBalance());
-
-            settings.WhenAnyValue(s => s.InitialBalance).Subscribe(x => UpdateBalance());
-
-            DistributionChart = new DistributionChartViewModel(Transactions);
+            OptionsFlyoutOpen = ReactiveCommand.Create(this.WhenAnyValue(x => x.OptionsFlyoutState, state => !state));
+            OptionsFlyoutOpen.Subscribe(_ => OptionsFlyoutState = !OptionsFlyoutState);
         }
 
-        private void UpdateBalance()
-        {
-            int finalBalance = _settings.InitialBalance;
-            if (Transactions.Any())
-            {
-                finalBalance += Transactions.Sum(x => x.Difference);
-            }
-            Balance = finalBalance; 
-
-            double days = 1;
-            if (Transactions.Any())
-            {
-                var daysDifference = Transactions.Max(t => t.Moment) - Transactions.Min(t => t.Moment);
-                if (daysDifference.TotalDays > 0)
-                {
-                    days = daysDifference.TotalDays;
-                }
-            }
-            var goldIncome = Transactions.Where(t => t.Difference > 0).Sum(t => t.Difference);
-            var goldOutcome = Transactions.Where(t => t.Difference < 0).Sum(t => t.Difference);
-            var goldTotal = Transactions.Sum(t => t.Difference);
-            GoldVelocity = $"+{goldIncome / days:N2} | {goldOutcome / days:N2} | {(goldTotal > 0 ? "+" : "")}{goldTotal / days:N2}";
-        }
+        public ReactiveCommand<object> OptionsFlyoutOpen { get; private set; }
 
         [Reactive]
-        public ReactiveList<TransactionViewModel> Transactions { get; set; }
+        public bool OptionsFlyoutState { get; set; }
 
         [Reactive]
-        public int Balance { get; set; }
+        public TransactionListViewModel TransactionList { get; private set; }
+
+        [Reactive]
+        public ReportControlViewModel Reports { get; private set; }
+
+        [Reactive]
+        public StatisticsViewModel Statistics { get; private set; }
 
         [Reactive]
         public PluginSettingsViewModel Settings { get; set; }
-
-        [Reactive]
-        public string GoldVelocity { get; set; }
-
-        [Reactive]
-        public DistributionChartViewModel DistributionChart { get; set; }
     }
 }

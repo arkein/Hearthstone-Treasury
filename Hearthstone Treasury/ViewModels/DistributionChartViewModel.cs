@@ -7,15 +7,16 @@ namespace Hearthstone_Treasury.ViewModels
 {
     public class DistributionChartViewModel : ReactiveObject
     {
-        private IReactiveCollection<TransactionViewModel> _transactions;
+        private TransactionListViewModel _transactionsList;
+        private Func<TransactionViewModel, bool> _selector;
 
-        public DistributionChartViewModel(IReactiveCollection<TransactionViewModel> transactions)
+        public DistributionChartViewModel(TransactionListViewModel transactionsList, Func<TransactionViewModel, bool> selector)
         {
-            _transactions = transactions;
-            _transactions.ItemChanged.Subscribe(x => UpdateChart());
-            _transactions.Changed.Subscribe(x => UpdateChart());
-
+            _selector = selector;
             SourcesList = new ReactiveList<IncomeSource>();
+
+            _transactionsList = transactionsList;
+            _transactionsList.TransactionsChanged.Subscribe(x => UpdateChart());
 
             UpdateChart();
         }
@@ -23,27 +24,21 @@ namespace Hearthstone_Treasury.ViewModels
         private void UpdateChart()
         {
             SourcesList.Reset();
-            SourcesList.AddRange(
-                _transactions.Where(t => t.Difference > 0).GroupBy(t => t.Category).Select(t => new IncomeSource() { Name = Enum.GetName(t.Key.GetType(), t.Key), Amount = t.Sum(tt => tt.Difference) })
-                );
+
+            foreach (var item in _transactionsList.Transactions.Where(_selector).GroupBy(t => t.Category).Select(t => new IncomeSource() { Name = Enum.GetName(t.Key.GetType(), t.Key), Amount = t.Sum(tt => Math.Abs(tt.Difference)) }))
+            {
+                SourcesList.Add(item);
+            }
         }
 
         [Reactive]
         public ReactiveList<IncomeSource> SourcesList { get; set; }
 
-        private object selectedItem = null;
-        public object SelectedItem
-        {
-            get
-            {
-                return selectedItem;
-            }
-            set
-            {
-                // selected item has changed
-                selectedItem = value;
-            }
-        }
+        [Reactive]
+        public string ChartTitle { get; set; }
+
+        [Reactive]
+        public string ChartSubTitle { get; set; }
     }
 
     public class IncomeSource : ReactiveObject

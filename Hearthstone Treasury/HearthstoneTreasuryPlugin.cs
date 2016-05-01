@@ -7,11 +7,9 @@ using ReactiveUI;
 
 namespace Hearthstone_Treasury
 {
-    //1. settings window/flyout
     //2. add new transaction flyout
     //3. Listen to 3 wins and other events
     //3.5. Quest details, comments, re-rolls.
-    //4. Charts
     public class HearthstoneTreasuryPlugin : Hearthstone_Deck_Tracker.Plugins.IPlugin
     {
         internal static string PluginDataDir => Path.Combine(Hearthstone_Deck_Tracker.Config.Instance.DataDir, "Treasury");
@@ -61,14 +59,10 @@ namespace Hearthstone_Treasury
 
             Settings = PluginSettingsViewModel.LoadSettings(SettingsFile);
 
-            var transactions = TransactionHelper.LoadTransactions(TransactionsFile) ?? new ReactiveList<TransactionViewModel>()
-            {
-                new TransactionViewModel() { Moment = DateTime.UtcNow, Difference=-100, Category = CategoryEnum.Pack },
-                new TransactionViewModel() { Moment = DateTime.UtcNow.AddHours(1), Difference=+10, Category = CategoryEnum.Arena }
-            };
-            transactions.ChangeTrackingEnabled = true;
+            var transactions = TransactionHelper.LoadTransactions(TransactionsFile) ?? new ReactiveList<TransactionViewModel>() { ChangeTrackingEnabled = true };
+            var transactionList = new TransactionListViewModel(transactions);
 
-            _mainWindowModel = new MainWindowViewModel(Settings, transactions);
+            _mainWindowModel = new MainWindowViewModel(Settings, transactionList);
 
             _menuItem.Click += (sender, args) =>
             {
@@ -103,7 +97,7 @@ namespace Hearthstone_Treasury
                     Settings.CollectionWindowWidth = _mainWindow.Width;
                     Settings.CollectionWindowHeight = _mainWindow.Height;
 
-                    TransactionHelper.SaveTransactions(_mainWindowModel.Transactions, TransactionsFile);
+                    TransactionHelper.SaveTransactions(_mainWindowModel.TransactionList.Transactions, TransactionsFile);
 
                     _mainWindow = null;
                 };

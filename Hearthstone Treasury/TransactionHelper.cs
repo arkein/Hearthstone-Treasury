@@ -5,7 +5,6 @@ using ReactiveUI;
 
 namespace Hearthstone_Treasury
 {
-    //todo: save/load as list, then convert to rective
     public static class TransactionHelper
     {
         public static ReactiveList<TransactionViewModel> LoadTransactions(string path)

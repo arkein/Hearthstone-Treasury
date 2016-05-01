@@ -4,7 +4,7 @@ using System.IO;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 
-namespace Hearthstone_Treasury
+namespace Hearthstone_Treasury.ViewModels
 {
     [Serializable]
     public class PluginSettingsViewModel : ReactiveObject

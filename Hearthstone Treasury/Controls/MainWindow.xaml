@@ -11,42 +11,40 @@
              BorderBrush="{DynamicResource AccentColorBrush}" BorderThickness="1"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
+    <Controls:MetroWindow.RightWindowCommands>
+        <Controls:WindowCommands>
+            <Button Command="{Binding OptionsFlyoutOpen}">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Margin="4" VerticalAlignment="Center" Text="Options" />
+                </StackPanel>
+            </Button>
+        </Controls:WindowCommands>
+    </Controls:MetroWindow.RightWindowCommands>
+    <Controls:MetroWindow.Flyouts>
+        <Controls:FlyoutsControl Margin="{Binding TitleBarMargin, RelativeSource={RelativeSource AncestorType=local:MainWindow}}">
+            <!-- Options -->
+            <Controls:Flyout x:Name="FlyoutOptions" IsOpen="{Binding OptionsFlyoutState}" Header="Options" Position="Left" Width="400">
+                <local:SettingsControl DataContext="{Binding Path=Settings}" />
+            </Controls:Flyout>
+        </Controls:FlyoutsControl>
+    </Controls:MetroWindow.Flyouts>
     <ScrollViewer Margin="0, 0, 2, 0">
-        <WrapPanel Orientation="Vertical">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"></ColumnDefinition>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <StackPanel Grid.Column="0" Orientation="Horizontal">
-                    <Label>Current balance:</Label>
-                    <Label Content="{Binding Balance}"></Label>
-                </StackPanel>
-                <StackPanel Grid.Column="1" Orientation="Horizontal">
-                    <Label>Gold per day:</Label>
-                    <Label Content="{Binding GoldVelocity}"></Label>
-                </StackPanel>
-            </Grid>
-            <local:DistributionChart DataContext="{Binding DistributionChart}" ></local:DistributionChart>
-                                   <!--  Width="{Binding Path=Width,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=UserControl}}"
-                                     Height="{Binding Path=Height,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=UserControl}}"
-                                     />-->
-            <DataGrid ItemsSource="{Binding Transactions}" AutoGenerateColumns="False" CanUserReorderColumns="False">
-                <DataGrid.Resources>
-                    <ObjectDataProvider x:Key="categoryEnum" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
-                        <ObjectDataProvider.MethodParameters>
-                            <x:Type Type="Models:CategoryEnum"/>
-                        </ObjectDataProvider.MethodParameters>
-                    </ObjectDataProvider>
-                </DataGrid.Resources>
-                <DataGrid.Columns>
-                    <DataGridTextColumn Binding="{Binding Moment}" Header="When" SortDirection="Ascending"/>
-                    <DataGridComboBoxColumn  Header="Category" SelectedItemBinding="{Binding Category}" ItemsSource="{Binding Source={StaticResource categoryEnum}}"/>
-                    <DataGridTextColumn Binding="{Binding Difference}" Header="Difference"/>
-                    <DataGridTextColumn Binding="{Binding Comment}" Header="Comments" />
-                </DataGrid.Columns>
-            </DataGrid>
-
-        </WrapPanel>
+        <StackPanel>
+            <local:StatisticsControl DataContext="{Binding Statistics}"/>
+            <WrapPanel Orientation="Vertical">
+                <Controls:MetroTabControl>
+                    <Controls:MetroTabItem Header="Transactions">
+                        <Controls:MetroTabItem.Content>
+                            <local:TransactionsListingControl DataContext="{Binding TransactionList}"/>
+                        </Controls:MetroTabItem.Content>
+                    </Controls:MetroTabItem>
+                    <Controls:MetroTabItem Header="Reports">
+                        <Controls:MetroTabItem.Content>
+                            <local:ReportControl DataContext="{Binding Reports}"/>
+                        </Controls:MetroTabItem.Content>
+                    </Controls:MetroTabItem>
+                </Controls:MetroTabControl>
+            </WrapPanel>
+        </StackPanel>
     </ScrollViewer>
 </Controls:MetroWindow>
