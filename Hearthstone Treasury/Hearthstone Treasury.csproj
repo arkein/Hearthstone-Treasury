@@ -117,10 +117,14 @@
     <Compile Include="Controls\TransactionsListingControl.xaml.cs">
       <DependentUpon>TransactionsListingControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\TransactionTemplateControl.xaml.cs">
+      <DependentUpon>TransactionTemplateControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\TreasuryMenuItem.xaml.cs">
       <DependentUpon>TreasuryMenuItem.xaml</DependentUpon>
     </Compile>
     <Compile Include="HearthstoneTreasuryPlugin.cs" />
+    <Compile Include="ViewModels\NewTransactionViewModel.cs" />
     <Compile Include="ViewModels\StatisticsViewModel.cs" />
     <Compile Include="ViewModels\TransactionListViewModel.cs" />
     <Compile Include="ViewModels\PluginSettingsViewModel.cs" />
@@ -157,6 +161,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\TransactionsListingControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\TransactionTemplateControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

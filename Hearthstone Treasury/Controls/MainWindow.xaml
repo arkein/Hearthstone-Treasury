@@ -28,23 +28,27 @@
             </Controls:Flyout>
         </Controls:FlyoutsControl>
     </Controls:MetroWindow.Flyouts>
-    <ScrollViewer Margin="0, 0, 2, 0">
-        <StackPanel>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <GroupBox Grid.Row="0" Header="Statistics">
             <local:StatisticsControl DataContext="{Binding Statistics}"/>
-            <WrapPanel Orientation="Vertical">
-                <Controls:MetroTabControl>
-                    <Controls:MetroTabItem Header="Transactions">
-                        <Controls:MetroTabItem.Content>
-                            <local:TransactionsListingControl DataContext="{Binding TransactionList}"/>
-                        </Controls:MetroTabItem.Content>
-                    </Controls:MetroTabItem>
-                    <Controls:MetroTabItem Header="Reports">
-                        <Controls:MetroTabItem.Content>
-                            <local:ReportControl DataContext="{Binding Reports}"/>
-                        </Controls:MetroTabItem.Content>
-                    </Controls:MetroTabItem>
-                </Controls:MetroTabControl>
-            </WrapPanel>
-        </StackPanel>
-    </ScrollViewer>
+        </GroupBox>
+        <GroupBox Grid.Row="1">
+            <Controls:MetroTabControl>
+                <Controls:MetroTabItem Header="Transactions">
+                    <Controls:MetroTabItem.Content>
+                        <local:TransactionsListingControl DataContext="{Binding TransactionList}"/>
+                    </Controls:MetroTabItem.Content>
+                </Controls:MetroTabItem>
+                <Controls:MetroTabItem Header="Reports">
+                    <Controls:MetroTabItem.Content>
+                        <local:ReportControl DataContext="{Binding Reports}"/>
+                    </Controls:MetroTabItem.Content>
+                </Controls:MetroTabItem>
+            </Controls:MetroTabControl>
+        </GroupBox>
+    </Grid>
 </Controls:MetroWindow>

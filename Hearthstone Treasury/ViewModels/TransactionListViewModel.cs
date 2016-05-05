@@ -4,6 +4,7 @@ using System;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
+using System.Windows;
 
 namespace Hearthstone_Treasury.ViewModels
 {
@@ -15,6 +16,19 @@ namespace Hearthstone_Treasury.ViewModels
             TransactionsChanged.Select(_ => CalculateReportingDays()).ToProperty(this, x => x.ReportingDays, out reportingDays, CalculateReportingDays());
             TransactionsChanged.Select(_ => Transactions.Where(x => x.Difference > 0).Sum(x => x.Difference)).ToProperty(this, x => x.GoldIn, out goldIn, Transactions.Where(x => x.Difference > 0).Sum(x => x.Difference));
             TransactionsChanged.Select(_ => Transactions.Where(x => x.Difference < 0).Sum(x => x.Difference)).ToProperty(this, x => x.GoldOut, out goldOut, Transactions.Where(x => x.Difference < 0).Sum(x => x.Difference));
+
+            TransactionTemplate = new NewTransactionViewModel();
+            TransactionTemplate.CreateTransaction.Subscribe(t => AddTransactionFromTemplate());
+        }
+
+        private void AddTransactionFromTemplate()
+        {
+            Transactions.Add(new TransactionViewModel()
+            {
+                Category = TransactionTemplate.Category,
+                Difference = TransactionTemplate.Difference,
+                Comment = TransactionTemplate.Comment,
+            });
         }
 
         private double CalculateReportingDays()
@@ -30,6 +44,9 @@ namespace Hearthstone_Treasury.ViewModels
             }
             return days;
         }
+
+        [Reactive]
+        public NewTransactionViewModel TransactionTemplate { get; set; }
 
         [Reactive]
         public ReactiveList<TransactionViewModel> Transactions { get; private set; }

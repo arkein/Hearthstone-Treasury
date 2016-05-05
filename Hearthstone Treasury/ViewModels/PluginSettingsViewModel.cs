@@ -29,8 +29,8 @@ namespace Hearthstone_Treasury.ViewModels
             {
                 settings = new PluginSettingsViewModel()
                 {
-                    CollectionWindowWidth = 395,
-                    CollectionWindowHeight = 560,
+                    CollectionWindowWidth = 487,
+                    CollectionWindowHeight = 666,
                     InitialBalance = 0
                 };
             }

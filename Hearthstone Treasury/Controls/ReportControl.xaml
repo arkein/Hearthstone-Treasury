@@ -6,8 +6,8 @@
              xmlns:local="clr-namespace:Hearthstone_Treasury.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <WrapPanel>
-        <local:DistributionChart DataContext="{Binding IncomeDistributionChart}" ></local:DistributionChart>
-        <local:DistributionChart DataContext="{Binding OutcomeDistributionChart}" ></local:DistributionChart>
-    </WrapPanel>
+        <WrapPanel>
+            <local:DistributionChart DataContext="{Binding IncomeDistributionChart}" ></local:DistributionChart>
+            <local:DistributionChart DataContext="{Binding OutcomeDistributionChart}" ></local:DistributionChart>
+        </WrapPanel>
 </UserControl>
