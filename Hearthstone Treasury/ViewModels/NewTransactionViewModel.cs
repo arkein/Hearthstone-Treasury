@@ -20,5 +20,12 @@ namespace Hearthstone_Treasury.ViewModels
 
         [Reactive]
         public string Comment { get; set; }
+
+        internal void Reset()
+        {
+            Difference = 0;
+            Category = CategoryEnum.Arena;
+            Comment = "";
+        }
     }
 }

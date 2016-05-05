@@ -29,6 +29,7 @@ namespace Hearthstone_Treasury.ViewModels
                 Difference = TransactionTemplate.Difference,
                 Comment = TransactionTemplate.Comment,
             });
+            TransactionTemplate.Reset();
         }
 
         private double CalculateReportingDays()
