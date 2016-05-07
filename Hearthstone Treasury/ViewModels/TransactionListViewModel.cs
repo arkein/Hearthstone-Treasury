@@ -25,8 +25,8 @@ namespace Hearthstone_Treasury.ViewModels
         {
             Transactions.Add(new TransactionViewModel()
             {
-                Category = TransactionTemplate.Category,
-                Difference = TransactionTemplate.Difference,
+                Category = TransactionTemplate.Category.HasValue ? TransactionTemplate.Category.Value : CategoryEnum.Other,
+                Difference = TransactionTemplate.Difference.HasValue ? TransactionTemplate.Difference.Value : 0,
                 Comment = TransactionTemplate.Comment,
             });
             TransactionTemplate.Reset();

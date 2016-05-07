@@ -26,28 +26,30 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <GroupBox Header="New entry">
-            <local:TransactionTemplateControl Grid.Row="0" DataContext="{Binding TransactionTemplate}"/>
+        <GroupBox Header="New entry" Grid.Row="0">
+            <local:TransactionTemplateControl DataContext="{Binding TransactionTemplate}"/>
         </GroupBox>
-        <DataGrid Grid.Row="1" ItemsSource="{Binding Source={StaticResource TransactionsViewSource}}" AutoGenerateColumns="False" CanUserReorderColumns="False" ClipToBounds="True"
+        <GroupBox Header="History" Grid.Row="1">
+            <DataGrid Grid.Row="1" ItemsSource="{Binding Source={StaticResource TransactionsViewSource}}" AutoGenerateColumns="False" CanUserReorderColumns="False" ClipToBounds="True"
                           VerticalScrollBarVisibility="Auto" HorizontalAlignment="Stretch">
-            <DataGrid.Columns>
-                <DataGridTemplateColumn Header="Date" SortDirection="Descending" SortMemberPath="Moment">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Moment,StringFormat={}{0:d}}" ToolTip="{Binding Moment,StringFormat={}{0:t}}" TextAlignment="Center"/>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                    <DataGridTemplateColumn.CellEditingTemplate>
-                        <DataTemplate>
-                            <DatePicker SelectedDate="{Binding Moment}" HorizontalContentAlignment="Center"/>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellEditingTemplate>
-                </DataGridTemplateColumn>
-                <DataGridComboBoxColumn  Header="Category" SelectedItemBinding="{Binding Category}" ItemsSource="{Binding Source={StaticResource categoryEnum}}"/>
-                <DataGridTextColumn Binding="{Binding Difference}" Header="Difference"/>
-                <DataGridTextColumn Binding="{Binding Comment}" Header="Comments" />
-            </DataGrid.Columns>
-        </DataGrid>
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn Header="Date" SortDirection="Descending" SortMemberPath="Moment">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Moment,StringFormat={}{0:d}}" ToolTip="{Binding Moment,StringFormat={}{0:t}}" TextAlignment="Center"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                        <DataGridTemplateColumn.CellEditingTemplate>
+                            <DataTemplate>
+                                <DatePicker SelectedDate="{Binding Moment}" HorizontalContentAlignment="Center"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellEditingTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridComboBoxColumn  Header="Category" SelectedItemBinding="{Binding Category}" ItemsSource="{Binding Source={StaticResource categoryEnum}}"/>
+                    <DataGridTextColumn Binding="{Binding Difference}" Header="Difference"/>
+                    <DataGridTextColumn Binding="{Binding Comment}" Header="Comments" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </GroupBox>
     </Grid>
 </UserControl>

@@ -13,18 +13,18 @@ namespace Hearthstone_Treasury.ViewModels
         public ReactiveCommand<object> CreateTransaction { get; private set; }
 
         [Reactive]
-        public int Difference { get; set; }
+        public int? Difference { get; set; }
 
         [Reactive]
-        public CategoryEnum Category { get; set; }
+        public CategoryEnum? Category { get; set; }
 
         [Reactive]
         public string Comment { get; set; }
 
         internal void Reset()
         {
-            Difference = 0;
-            Category = CategoryEnum.Arena;
+            Difference = null;
+            Category = null;
             Comment = "";
         }
     }

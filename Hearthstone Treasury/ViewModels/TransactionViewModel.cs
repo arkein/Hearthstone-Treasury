@@ -11,7 +11,8 @@ namespace Hearthstone_Treasury.ViewModels
         Arena,
         AdventureWing,
         Daily,
-        Wins
+        Wins,
+        Other
     }
 
     [Serializable]
