@@ -7,9 +7,6 @@ using ReactiveUI;
 
 namespace Hearthstone_Treasury
 {
-    //2. add new transaction flyout
-    //3. Listen to 3 wins and other events
-    //3.5. Quest details, comments, re-rolls.
     public class HearthstoneTreasuryPlugin : Hearthstone_Deck_Tracker.Plugins.IPlugin
     {
         internal static string PluginDataDir => Path.Combine(Hearthstone_Deck_Tracker.Config.Instance.DataDir, "Treasury");
