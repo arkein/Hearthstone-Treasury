@@ -6,12 +6,13 @@
              xmlns:local="clr-namespace:Hearthstone_Treasury.Controls"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:Models="clr-namespace:Hearthstone_Treasury.ViewModels"
+             xmlns:Enums="clr-namespace:Hearthstone_Treasury.Enums"
              xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
              mc:Ignorable="d">
     <UserControl.Resources>
         <ObjectDataProvider x:Key="categoryEnum" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
             <ObjectDataProvider.MethodParameters>
-                <x:Type Type="Models:CategoryEnum"/>
+                <x:Type Type="Enums:CategoryEnum"/>
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
     </UserControl.Resources>

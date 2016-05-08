@@ -1,4 +1,5 @@
-﻿using ReactiveUI;
+﻿using Hearthstone_Treasury.Enums;
+using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 
 namespace Hearthstone_Treasury.ViewModels

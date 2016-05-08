@@ -123,6 +123,7 @@
     <Compile Include="Controls\TreasuryMenuItem.xaml.cs">
       <DependentUpon>TreasuryMenuItem.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Enums\CategoryEnum.cs" />
     <Compile Include="HearthstoneTreasuryPlugin.cs" />
     <Compile Include="ViewModels\NewTransactionViewModel.cs" />
     <Compile Include="ViewModels\StatisticsViewModel.cs" />

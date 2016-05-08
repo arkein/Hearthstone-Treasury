@@ -1,20 +1,10 @@
 ﻿using System;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
+using Hearthstone_Treasury.Enums;
 
 namespace Hearthstone_Treasury.ViewModels
 {
-    [Serializable]
-    public enum CategoryEnum
-    {
-        Pack,
-        Arena,
-        AdventureWing,
-        Daily,
-        Wins,
-        Other
-    }
-
     [Serializable]
     public class TransactionViewModel : ReactiveObject
     {

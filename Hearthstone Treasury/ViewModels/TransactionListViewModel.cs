@@ -1,10 +1,10 @@
-﻿using ReactiveUI;
+﻿using Hearthstone_Treasury.Enums;
+using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using System;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
-using System.Windows;
 
 namespace Hearthstone_Treasury.ViewModels
 {
@@ -19,6 +19,11 @@ namespace Hearthstone_Treasury.ViewModels
 
             TransactionTemplate = new NewTransactionViewModel();
             TransactionTemplate.CreateTransaction.Subscribe(t => AddTransactionFromTemplate());
+        }
+
+        public void AddTransaction(TransactionViewModel transaction)
+        {
+            Transactions.Add(transaction);
         }
 
         private void AddTransactionFromTemplate()

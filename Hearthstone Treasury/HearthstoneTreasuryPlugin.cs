@@ -4,6 +4,8 @@ using System;
 using System.IO;
 using System.Windows;
 using ReactiveUI;
+using Hearthstone_Treasury.Enums;
+using System.Linq;
 
 namespace Hearthstone_Treasury
 {
