@@ -124,7 +124,9 @@
       <DependentUpon>TreasuryMenuItem.xaml</DependentUpon>
     </Compile>
     <Compile Include="Enums\CategoryEnum.cs" />
+    <Compile Include="Enums\OriginEnum.cs" />
     <Compile Include="HearthstoneTreasuryPlugin.cs" />
+    <Compile Include="ViewModels\GoldRewardViewModel.cs" />
     <Compile Include="ViewModels\NewTransactionViewModel.cs" />
     <Compile Include="ViewModels\StatisticsViewModel.cs" />
     <Compile Include="ViewModels\TransactionListViewModel.cs" />
