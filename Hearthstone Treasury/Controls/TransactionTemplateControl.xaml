@@ -24,9 +24,9 @@
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
-        <ComboBox Grid.Column="0" SelectedItem="{Binding Category}" IsEditable="True" IsReadOnly="True" Text="Category" VerticalContentAlignment="Center" ItemsSource="{Binding Source={StaticResource categoryEnum}}" Margin="2,0,2,0"/>
-        <TextBox Grid.Column="1" Controls:TextBoxHelper.Watermark="Change" Text="{Binding Difference}" Margin="2,0,2,0" MinWidth="30" />
-        <TextBox Grid.Column="2" Controls:TextBoxHelper.Watermark="Comment" Text="{Binding Comment}" Margin="2,0,2,0"/>
-        <Button  Grid.Column="3" Margin="2" Content="Add" Command="{Binding CreateTransaction}"/>
+        <ComboBox Grid.Column="0" SelectedItem="{Binding Category,UpdateSourceTrigger=PropertyChanged}" IsEditable="True" IsReadOnly="True" Text="Category" VerticalContentAlignment="Center" ItemsSource="{Binding Source={StaticResource categoryEnum}}" Margin="2,0,2,0"/>
+        <TextBox Grid.Column="1" Controls:TextBoxHelper.Watermark="Change" Text="{Binding Difference,UpdateSourceTrigger=PropertyChanged}" Margin="2,0,2,0" MinWidth="30" />
+        <TextBox Grid.Column="2" Controls:TextBoxHelper.Watermark="Comment" Text="{Binding Comment,UpdateSourceTrigger=PropertyChanged}" Margin="2,0,2,0"/>
+        <Button  Grid.Column="3" Margin="2" Content="Add" Command="{Binding CreateTransaction}" IsDefault="True"/>
     </Grid>
 </UserControl>
