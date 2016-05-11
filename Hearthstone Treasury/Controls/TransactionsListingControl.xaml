@@ -37,7 +37,7 @@
                     <DataGridTemplateColumn Header="Date" SortDirection="Descending" SortMemberPath="Moment">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Moment,StringFormat={}{0:d}}" ToolTip="{Binding Moment,StringFormat={}{0:t}}" TextAlignment="Center"/>
+                                <TextBlock Text="{Binding Moment,StringFormat={}{0:d}}" ToolTip="{Binding Moment}" TextAlignment="Center"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                         <DataGridTemplateColumn.CellEditingTemplate>

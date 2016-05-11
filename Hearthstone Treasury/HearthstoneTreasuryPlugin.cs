@@ -4,9 +4,7 @@ using System;
 using System.IO;
 using System.Windows;
 using ReactiveUI;
-using Hearthstone_Deck_Tracker.LogReader;
 using System.Text.RegularExpressions;
-using Hearthstone_Treasury.Enums;
 using System.Linq;
 
 namespace Hearthstone_Treasury
