@@ -96,6 +96,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AchievementProvider.cs" />
     <Compile Include="Controls\DistributionChart.xaml.cs">
       <DependentUpon>DistributionChart.xaml</DependentUpon>
     </Compile>
@@ -125,7 +126,13 @@
     </Compile>
     <Compile Include="Enums\CategoryEnum.cs" />
     <Compile Include="Enums\OriginEnum.cs" />
+    <Compile Include="Enums\RewardType.cs" />
     <Compile Include="HearthstoneTreasuryPlugin.cs" />
+    <Compile Include="Models\Achievement.cs" />
+    <Compile Include="Models\AchievementDbf.cs" />
+    <Compile Include="Models\HardcodedAchievements.cs" />
+    <Compile Include="Utils\AchieveParser.cs" />
+    <Compile Include="Utils\Localization.cs" />
     <Compile Include="ViewModels\GoldRewardViewModel.cs" />
     <Compile Include="ViewModels\NewTransactionViewModel.cs" />
     <Compile Include="ViewModels\StatisticsViewModel.cs" />

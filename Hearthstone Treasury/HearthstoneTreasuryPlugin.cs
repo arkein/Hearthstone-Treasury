@@ -6,6 +6,7 @@ using System.Windows;
 using ReactiveUI;
 using System.Text.RegularExpressions;
 using System.Linq;
+using Hearthstone_Deck_Tracker;
 
 namespace Hearthstone_Treasury
 {
@@ -16,9 +17,13 @@ namespace Hearthstone_Treasury
         /// </summary>
         public static readonly Regex GoldRewardExtendedRegex = new Regex(@"GoldRewardData: Amount=(?<amount>(\d+)) Origin=(?<origin>(\w+)) OriginData=(?<origindata>(\d+))");
 
-        internal static string PluginDataDir => Path.Combine(Hearthstone_Deck_Tracker.Config.Instance.DataDir, "Treasury");
+        internal static string PluginDataDir => Path.Combine(Config.Instance.DataDir, "Treasury");
         internal static string TransactionsFile => Path.Combine(PluginDataDir, "transactions.xml");
         internal static string SettingsFile => Path.Combine(PluginDataDir, "treasury.config.xml");
+        internal static string AchievementsFile => Path.Combine(PluginDataDir, "achievements.xml");
+
+        internal const string AchievementDbfFile = @"\DBF\ACHIEVE.xml";
+        internal static readonly string AchievementDbfFilePath = Config.Instance.HearthstoneDirectory + AchievementDbfFile;
 
         private PluginSettingsViewModel Settings { get; set; }
 
@@ -30,6 +35,8 @@ namespace Hearthstone_Treasury
 
         private MainWindow _mainWindow = null;
         private SettingsWindow _settingsWindow = null;
+
+        private AchievementProvider _achievementProvider;
 
         public string Author => "Arkein";
 
@@ -62,6 +69,9 @@ namespace Hearthstone_Treasury
             }
 
             Settings = PluginSettingsViewModel.LoadSettings(SettingsFile);
+
+            var pathToHearthstoneAchievementsFile = string.IsNullOrEmpty(Config.Instance.HearthstoneDirectory) ? "" : AchievementDbfFilePath;
+            _achievementProvider = AchievementProvider.Create(Settings, AchievementsFile, pathToHearthstoneAchievementsFile);
 
             var transactions = TransactionHelper.LoadTransactions(TransactionsFile) ?? new ReactiveList<TransactionViewModel>() { ChangeTrackingEnabled = true };
             var transactionList = new TransactionListViewModel(transactions);
@@ -97,6 +107,9 @@ namespace Hearthstone_Treasury
                 //parse
                 var match = GoldRewardExtendedRegex.Match(logLine);
                 var rewardInfo = new GoldRewardViewModel(logLine, match.Groups["amount"].Value, match.Groups["origin"].Value, match.Groups["origindata"].Value);
+
+                _achievementProvider.ProvideComment(rewardInfo);
+
                 _mainWindowModel?.TransactionList.AddTransaction(new TransactionViewModel { Difference = rewardInfo.Amount, Category = rewardInfo.Category, Comment = rewardInfo.Comment });
             }
         }

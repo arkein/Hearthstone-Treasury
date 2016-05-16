@@ -9,22 +9,27 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Label Content="Initial Balance" />
-        <TextBox Grid.Column="1" Width="50" Margin="2">
-            <TextBox.Text>
-                <Binding Path="InitialBalance" Mode="TwoWay" NotifyOnValidationError="True">
-                    <Binding.ValidationRules>
-                        <DataErrorValidationRule ValidatesOnTargetUpdated="True"/>
-                    </Binding.ValidationRules>
-                </Binding>
-            </TextBox.Text>
-        </TextBox>
-        <Button Grid.Column="2" Content="Apply" Margin="2" />
+        <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal">
+            <Label Content="Initial Balance" Width="100" />
+            <TextBox MinWidth="50" Margin="2">
+                <TextBox.Text>
+                    <Binding Path="InitialBalance" UpdateSourceTrigger="PropertyChanged" Mode="TwoWay" NotifyOnValidationError="True">
+                        <Binding.ValidationRules>
+                            <DataErrorValidationRule ValidatesOnTargetUpdated="True"/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+        </StackPanel>
+        <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
+            <Label Content="Locale" Width="100"/>
+            <TextBlock Text="{Binding Locale,Mode=OneWay,UpdateSourceTrigger=PropertyChanged}" MinWidth="50" Margin="2"/>
+        </StackPanel>
     </Grid>
 </UserControl>

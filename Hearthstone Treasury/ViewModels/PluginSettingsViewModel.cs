@@ -18,12 +18,19 @@ namespace Hearthstone_Treasury.ViewModels
         [Reactive]
         public int InitialBalance { get; set; }
 
+        [Reactive]
+        public string Locale { get; set; }
+
         public static PluginSettingsViewModel LoadSettings(string filePath)
         {
             PluginSettingsViewModel settings;
             if (File.Exists(filePath))
             {
                 settings = XmlManager<PluginSettingsViewModel>.Load(filePath);
+                if (string.IsNullOrEmpty(settings.Locale))
+                {
+                    settings.Locale = System.Globalization.CultureInfo.CurrentUICulture.Name;
+                }
             }
             else
             {
@@ -31,7 +38,8 @@ namespace Hearthstone_Treasury.ViewModels
                 {
                     CollectionWindowWidth = 487,
                     CollectionWindowHeight = 666,
-                    InitialBalance = 0
+                    InitialBalance = 0,
+                    Locale = System.Globalization.CultureInfo.CurrentUICulture.Name
                 };
             }
 
