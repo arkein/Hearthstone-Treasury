@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hearthstone Treasury", "Hearthstone Treasury\Hearthstone Treasury.csproj", "{54A8B2C0-9DBC-48C9-8C04-18FD6E424471}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{AC8484CF-2D04-4E70-94F7-980A8A99019A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{54A8B2C0-9DBC-48C9-8C04-18FD6E424471}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{54A8B2C0-9DBC-48C9-8C04-18FD6E424471}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{54A8B2C0-9DBC-48C9-8C04-18FD6E424471}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC8484CF-2D04-4E70-94F7-980A8A99019A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC8484CF-2D04-4E70-94F7-980A8A99019A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC8484CF-2D04-4E70-94F7-980A8A99019A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC8484CF-2D04-4E70-94F7-980A8A99019A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
