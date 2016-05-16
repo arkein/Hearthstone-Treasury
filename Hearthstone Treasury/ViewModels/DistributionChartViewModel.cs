@@ -23,11 +23,15 @@ namespace Hearthstone_Treasury.ViewModels
 
         private void UpdateChart()
         {
-            SourcesList.Reset();
-
-            foreach (var item in _transactionsList.Transactions.Where(_selector).GroupBy(t => t.Category).Select(t => new IncomeSource() { Name = Enum.GetName(t.Key.GetType(), t.Key), Amount = t.Sum(tt => Math.Abs(tt.Difference)) }))
+            using (SourcesList.SuppressChangeNotifications())
             {
-                SourcesList.Add(item);
+                if (!SourcesList.IsEmpty)
+                    SourcesList.Clear();
+
+                foreach (var item in _transactionsList.Transactions.Where(_selector).GroupBy(t => t.Category).Select(t => new IncomeSource() { Name = Enum.GetName(t.Key.GetType(), t.Key), Amount = t.Sum(tt => Math.Abs(tt.Difference)) }))
+                {
+                    SourcesList.Add(item);
+                }
             }
         }
 

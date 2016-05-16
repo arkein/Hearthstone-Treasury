@@ -66,6 +66,8 @@ namespace Hearthstone_Treasury.ViewModels
         private readonly ObservableAsPropertyHelper<int> goldOut;
         public int GoldOut { get { return goldOut.Value; } }
 
-        public IObservable<Unit> TransactionsChanged => Observable.Merge(Transactions.ItemChanged.Select(_ => Unit.Default), Transactions.Changed.Select(_ => Unit.Default));
+        public IObservable<Unit> TransactionsChanged => Observable.Merge(
+            Transactions.ItemChanged.Select(_ => Unit.Default),
+            Transactions.CountChanged.Select(_ => Unit.Default));
     }
 }
