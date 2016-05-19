@@ -12,6 +12,7 @@ namespace Hearthstone_Treasury.ViewModels
             Settings = settings;
             TransactionList = transactionsList;
             Reports = new ReportControlViewModel(TransactionList);
+            BalanceReport = new BalanceReportViewModel(settings, TransactionList);
             Statistics = new StatisticsViewModel(settings, transactionsList);
 
             OptionsFlyoutOpen = ReactiveCommand.Create(this.WhenAnyValue(x => x.OptionsFlyoutState, state => !state));
@@ -28,6 +29,9 @@ namespace Hearthstone_Treasury.ViewModels
 
         [Reactive]
         public ReportControlViewModel Reports { get; private set; }
+
+        [Reactive]
+        public BalanceReportViewModel BalanceReport { get; private set; }
 
         [Reactive]
         public StatisticsViewModel Statistics { get; private set; }

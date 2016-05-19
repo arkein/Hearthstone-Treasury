@@ -43,6 +43,14 @@
       <HintPath>..\packages\MahApps.Metro.1.1.2.0\lib\net45\MahApps.Metro.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="OxyPlot, Version=2011.3.4094.38386, Culture=neutral, PublicKeyToken=638079a8f0bd61e9, processorArchitecture=MSIL">
+      <HintPath>..\packages\OxyPlot.Wpf.2011.3.4094\lib\OxyPlot.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="OxyPlot.Wpf, Version=2011.3.4094.38387, Culture=neutral, PublicKeyToken=75e952ba404cdbb0, processorArchitecture=MSIL">
+      <HintPath>..\packages\OxyPlot.Wpf.2011.3.4094\lib\OxyPlot.Wpf.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="ReactiveUI, Version=6.5.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -97,6 +105,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AchievementProvider.cs" />
+    <Compile Include="Controls\BalanceReportControl.xaml.cs">
+      <DependentUpon>BalanceReportControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\DistributionChart.xaml.cs">
       <DependentUpon>DistributionChart.xaml</DependentUpon>
     </Compile>
@@ -130,6 +141,7 @@
     <Compile Include="Models\HardcodedAchievements.cs" />
     <Compile Include="Utils\AchieveParser.cs" />
     <Compile Include="Utils\Localization.cs" />
+    <Compile Include="ViewModels\BalanceReportViewModel.cs" />
     <Compile Include="ViewModels\GoldRewardViewModel.cs" />
     <Compile Include="ViewModels\NewTransactionViewModel.cs" />
     <Compile Include="ViewModels\StatisticsViewModel.cs" />
@@ -143,6 +155,10 @@
     <Compile Include="ViewModels\TransactionViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Controls\BalanceReportControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\DistributionChart.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

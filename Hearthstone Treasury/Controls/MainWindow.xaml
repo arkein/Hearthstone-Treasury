@@ -48,6 +48,11 @@
                         <local:ReportControl DataContext="{Binding Reports}"/>
                     </Controls:MetroTabItem.Content>
                 </Controls:MetroTabItem>
+                <Controls:MetroTabItem Header="Balance">
+                    <Controls:MetroTabItem.Content>
+                        <local:BalanceReportControl DataContext="{Binding BalanceReport}"/>
+                    </Controls:MetroTabItem.Content>
+                </Controls:MetroTabItem>
             </Controls:MetroTabControl>
         </GroupBox>
     </Grid>
