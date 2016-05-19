@@ -33,14 +33,13 @@ namespace Hearthstone_Treasury
 
         private MainWindowViewModel _mainWindowModel;
 
-        private MainWindow _mainWindow = null;
-        private SettingsWindow _settingsWindow = null;
+        private MainWindow _mainWindow;
 
         private AchievementProvider _achievementProvider;
 
         public string Author => "Arkein";
 
-        public string ButtonText => "Settings";
+        public string ButtonText => "Settings are inside plugin";
 
         public string Description => "Gold tracking plugin for Hearthstone Deck Tracker.";
 
@@ -50,15 +49,7 @@ namespace Hearthstone_Treasury
 
         public void OnButtonPress()
         {
-            if (_settingsWindow == null)
-            {
-                InitializeSettingsWindow();
-                _settingsWindow.Show();
-            }
-            else
-            {
-                _settingsWindow.Activate();
-            }
+            //no-op
         }
 
         public void OnLoad()
@@ -164,39 +155,8 @@ namespace Hearthstone_Treasury
             }
         }
 
-        public void InitializeSettingsWindow()
-        {
-            if (_settingsWindow == null)
-            {
-                _settingsWindow = new SettingsWindow()
-                {
-                    Width = Settings.CollectionWindowWidth,
-                    Height = Settings.CollectionWindowHeight,
-                    MaxHeight = SystemParameters.PrimaryScreenHeight,
-                    MaxWidth = SystemParameters.PrimaryScreenWidth,
-                    Title = "Treasury Settings",
-                    DataContext = Settings
-                };
-
-                _settingsWindow.Closed += (sender, args) =>
-                {
-                    Settings.SaveSettings(SettingsFile);
-                    _settingsWindow = null;
-                };
-            }
-        }
-
         public void OnUnload()
         {
-            if (_settingsWindow != null)
-            {
-                if (_settingsWindow.IsVisible)
-                {
-                    _settingsWindow.Close();
-                }
-                _settingsWindow = null;
-            }
-
             if (_mainWindow != null)
             {
                 if (_mainWindow.IsVisible)
