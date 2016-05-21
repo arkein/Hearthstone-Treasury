@@ -54,8 +54,22 @@ namespace Hearthstone_Treasury
 
             Settings = PluginSettingsViewModel.LoadSettings(SettingsFile);
 
-            var pathToHearthstoneAchievementsFile = string.IsNullOrEmpty(Config.Instance.HearthstoneDirectory) ? "" : AchievementDbfFilePath;
-            _achievementProvider = AchievementProvider.Create(Settings, AchievementsFile, pathToHearthstoneAchievementsFile);
+            Settings.ResetDataFilesCommand.Subscribe(_ => {
+                try
+                {
+                    if (File.Exists(AchievementsFile))
+                    {
+                        File.Delete(AchievementsFile);
+                    }
+                }
+                catch (Exception) {
+                    //no-op
+                }
+
+                _achievementProvider = CreateNewAchievementProvider();
+            });
+
+            _achievementProvider = CreateNewAchievementProvider();
 
             var transactions = TransactionHelper.LoadTransactions(TransactionsFile) ?? new ReactiveList<TransactionViewModel>() { ChangeTrackingEnabled = true };
             var transactionList = new TransactionListViewModel(transactions);
@@ -78,6 +92,12 @@ namespace Hearthstone_Treasury
             };
 
             Hearthstone_Deck_Tracker.API.LogEvents.OnRachelleLogLine.Add(logHandler.HandleRachelleLogUpdate);
+        }
+
+        private AchievementProvider CreateNewAchievementProvider()
+        {
+            var pathToHearthstoneAchievementsFile = string.IsNullOrEmpty(Config.Instance.HearthstoneDirectory) ? "" : AchievementDbfFilePath;
+            return AchievementProvider.Create(Settings, AchievementsFile, pathToHearthstoneAchievementsFile);
         }
 
         private void InitializeMainWindow()

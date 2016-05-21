@@ -3,12 +3,21 @@ using System;
 using System.IO;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
+using System.Xml.Serialization;
 
 namespace Hearthstone_Treasury.ViewModels
 {
     [Serializable]
     public class PluginSettingsViewModel : ReactiveObject
     {
+        public PluginSettingsViewModel()
+        {
+            ResetDataFilesCommand = ReactiveCommand.Create();
+        }
+
+        [XmlIgnore]
+        public ReactiveCommand<object> ResetDataFilesCommand { get; private set; }
+
         [Reactive]
         public double CollectionWindowWidth { get; set; }
 

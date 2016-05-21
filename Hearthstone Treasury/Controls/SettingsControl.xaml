@@ -38,5 +38,9 @@
             <Label Content="Locale" Width="100"/>
             <ComboBox SelectedItem="{Binding Locale,UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" ItemsSource="{Binding Source={StaticResource ResourceKey=Locales}}" Margin="2"/>
         </StackPanel>
+        <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal">
+            <Label Content="Data files" Width="100"/>
+            <Button Content="Reset (it's safe)" Command="{Binding ResetDataFilesCommand}" Margin="2"/>
+        </StackPanel>
     </Grid>
 </UserControl>
