@@ -2,7 +2,6 @@
 using Hearthstone_Treasury.ViewModels;
 using System.IO;
 using NUnit.Framework;
-using System.Collections.Generic;
 using System;
 using ReactiveUI;
 
@@ -12,8 +11,8 @@ namespace Tests
     public class AchievementProviderTests
     {
         private static PluginSettingsViewModel _settings = new PluginSettingsViewModel { Locale = "en-US" };
-        private static string myFile = System.AppDomain.CurrentDomain.BaseDirectory + @"\Resources\achievements_parsed.xml";
-        private static string blizzFile = System.AppDomain.CurrentDomain.BaseDirectory+@"\Resources\achieve.xml";
+        private static string myFile = AppDomain.CurrentDomain.BaseDirectory + @"\Resources\achievements_parsed.xml";
+        private static string blizzFile = AppDomain.CurrentDomain.BaseDirectory+@"\Resources\achieve.xml";
 
         public static AchievementProvider CreateHardcodedProvider()
         {
