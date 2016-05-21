@@ -29,7 +29,7 @@ namespace Hearthstone_Treasury.Models
 
         public string GetName(string culture)
         {
-            return LocalizedName.FirstOrDefault(t=>t.Lang==culture)?.Name ?? DefaultName;
+            return LocalizedName.FirstOrDefault(t => t.Lang == culture)?.Name ?? DefaultName;
         }
     }
 

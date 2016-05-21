@@ -27,7 +27,7 @@ namespace Hearthstone_Treasury.ViewModels
             }
 
             OriginEnum origin;
-            if (Enum.TryParse(originString, out origin))
+            if (Enum.TryParse(originString, true, out origin))
             {
                 Origin = origin;
             } else
