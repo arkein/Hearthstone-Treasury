@@ -84,7 +84,7 @@ namespace Hearthstone_Treasury.Utils
                     break;
                 case "REWARD":
                     RewardType type;
-                    if (Enum.TryParse(reader.ReadElementContentAsString("Field", string.Empty), out type))
+                    if (Enum.TryParse(reader.ReadElementContentAsString("Field", string.Empty), true, out type))
                     {
                         achievement.Reward = type;
                     }
@@ -107,7 +107,17 @@ namespace Hearthstone_Treasury.Utils
                         {
                             if (subreader.IsStartElement())
                             {
-                                achievement.LocalizedName.Add(new LocalizedNamePair { Lang = subreader.Name, Name = subreader.ReadElementContentAsString() });
+                                var namePair = new LocalizedNamePair { Lang = subreader.Name, Name = subreader.ReadElementContentAsString() };
+                                string correctLocale;
+                                if (Localization.BlizzardToWindowsLocale.TryGetValue(namePair.Lang, out correctLocale))
+                                {
+                                    namePair.Lang = correctLocale;
+                                }
+                                else
+                                {
+
+                                }
+                                achievement.LocalizedName.Add(namePair);
                             }
                         }
                     }
