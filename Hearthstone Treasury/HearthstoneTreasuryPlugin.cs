@@ -4,19 +4,12 @@ using System;
 using System.IO;
 using System.Windows;
 using ReactiveUI;
-using System.Text.RegularExpressions;
-using System.Linq;
 using Hearthstone_Deck_Tracker;
 
 namespace Hearthstone_Treasury
 {
     public class HearthstoneTreasuryPlugin : Hearthstone_Deck_Tracker.Plugins.IPlugin
     {
-        /// <summary>
-        /// Copied form Hearthstone_Deck_Tracker.HsLogReaderConstants.GoldRewardRegex, extended with Origin info
-        /// </summary>
-        public static readonly Regex GoldRewardExtendedRegex = new Regex(@"GoldRewardData: Amount=(?<amount>(\d+)) Origin=(?<origin>(\w+)) OriginData=(?<origindata>(\d+))");
-
         internal static string PluginDataDir => Path.Combine(Config.Instance.DataDir, "Treasury");
         internal static string TransactionsFile => Path.Combine(PluginDataDir, "transactions.xml");
         internal static string SettingsFile => Path.Combine(PluginDataDir, "treasury.config.xml");
@@ -67,6 +60,8 @@ namespace Hearthstone_Treasury
             var transactions = TransactionHelper.LoadTransactions(TransactionsFile) ?? new ReactiveList<TransactionViewModel>() { ChangeTrackingEnabled = true };
             var transactionList = new TransactionListViewModel(transactions);
 
+            var logHandler = new RachelleLogHandler(_achievementProvider, transactionList);
+
             _mainWindowModel = new MainWindowViewModel(Settings, transactionList);
 
             _menuItem.Click += (sender, args) =>
@@ -82,51 +77,7 @@ namespace Hearthstone_Treasury
                 }
             };
 
-            Hearthstone_Deck_Tracker.API.LogEvents.OnRachelleLogLine.Add(HandleRachelleLogUpdate);
-        }
-
-        private void HandleRachelleLogUpdate(string logLine)
-        {
-            if (GoldRewardExtendedRegex.IsMatch(logLine))
-            {
-                // Only process new lines
-                if (IsLogLineOutdated(logLine))
-                {
-                    return;
-                }
-
-                //parse
-                var match = GoldRewardExtendedRegex.Match(logLine);
-                var rewardInfo = new GoldRewardViewModel(logLine, match.Groups["amount"].Value, match.Groups["origin"].Value, match.Groups["origindata"].Value);
-
-                _achievementProvider.ProvideComment(rewardInfo);
-
-                _mainWindowModel?.TransactionList.AddTransaction(new TransactionViewModel { Difference = rewardInfo.Amount, Category = rewardInfo.Category, Comment = rewardInfo.Comment });
-            }
-        }
-
-        private bool IsLogLineOutdated(string logLine)
-        {
-            DateTime loglinetime;
-            if (logLine.Length > 20 && DateTime.TryParse(logLine.Substring(2, 16), out loglinetime))
-            {
-                if (loglinetime > DateTime.Now)
-                {
-                    loglinetime = loglinetime.AddDays(-1);
-                }
-
-                var latestTransaction = _mainWindowModel.TransactionList.Transactions.OrderByDescending(t => t.Moment).FirstOrDefault();
-                if (latestTransaction != null)
-                {
-                    var latestTransactionTime = latestTransaction.Moment;
-
-                    if (loglinetime <= latestTransactionTime)
-                    {
-                        return true;
-                    }
-                }
-            }
-            return false;
+            Hearthstone_Deck_Tracker.API.LogEvents.OnRachelleLogLine.Add(logHandler.HandleRachelleLogUpdate);
         }
 
         private void InitializeMainWindow()

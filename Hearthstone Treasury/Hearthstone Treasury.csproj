@@ -139,6 +139,7 @@
     <Compile Include="Models\Achievement.cs" />
     <Compile Include="Models\AchievementDbf.cs" />
     <Compile Include="Models\HardcodedAchievements.cs" />
+    <Compile Include="RachelleLogHandler.cs" />
     <Compile Include="Utils\AchieveParser.cs" />
     <Compile Include="Utils\Localization.cs" />
     <Compile Include="ViewModels\BalanceReportViewModel.cs" />
