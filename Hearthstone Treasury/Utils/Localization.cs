@@ -4,6 +4,25 @@ namespace Hearthstone_Treasury.Utils
 {
     public static class Localization
     {
+        public static string[] GetSupportedLocales()
+        {
+            return new string[] {
+                "en-US",
+                "fr-FR",
+                "de-DE",
+                "ko-KR",
+                "es-ES",
+                "es-MX",
+                "ru-RU",
+                "zh-TW",
+                "zh-CN",
+                "it-IT",
+                "pt-BR",
+                "pl-PL",
+                "ja-JP",
+                "th-TH",
+            };
+        }
         public static Dictionary<string, string> WindowsToBlizzardLocale = new Dictionary<string, string>
         {
             { "en-US", "enUS" },
