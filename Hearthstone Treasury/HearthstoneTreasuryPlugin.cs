@@ -5,6 +5,7 @@ using System.IO;
 using System.Windows;
 using ReactiveUI;
 using Hearthstone_Deck_Tracker;
+using System.Reflection;
 
 namespace Hearthstone_Treasury
 {
@@ -38,7 +39,7 @@ namespace Hearthstone_Treasury
 
         public string Name => "Treasury";
 
-        public Version Version => new Version(0, 0, 0, 1);
+        public Version Version => Assembly.GetExecutingAssembly().GetName().Version;
 
         public void OnButtonPress()
         {
