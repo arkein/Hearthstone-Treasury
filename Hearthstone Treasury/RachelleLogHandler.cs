@@ -41,27 +41,56 @@ namespace Hearthstone_Treasury
                 if (moment > DateTime.MinValue)
                     transaction.Moment = moment;
 
-                _transactionList.AddTransaction(transaction);
+                if (!IsDuplicate(transaction))
+                {
+                    _transactionList.AddTransaction(transaction);
+                }
             }
+        }
+
+        /// <summary>
+        /// Prevents completely duplicated transactions which are sometimes invoked by HDT rachelle log handler.
+        /// </summary>
+        /// <param name="transaction">Transaction to check for duplication</param>
+        /// <returns>true if already in the list</returns>
+        public bool IsDuplicate(TransactionViewModel transaction)
+        {
+            return _transactionList.Transactions.Any(t =>
+                                        t.Moment == transaction.Moment &&
+                                        t.Difference == transaction.Difference &&
+                                        t.Category == transaction.Category &&
+                                        t.Comment == transaction.Comment);
         }
 
         public bool IsLogLineOutdated(string logLine, out DateTime moment)
         {
-            moment = DateTime.MinValue;
-            if (logLine.Length > 20 && DateTime.TryParse(logLine.Substring(2, 16), out moment))
+            if (LogStringToDateTime(logLine, out moment))
             {
-                if (moment > DateTime.Now)
-                {
-                    moment = moment.AddDays(-1);
-                }
-
                 var latestTransaction = _transactionList.Transactions.OrderByDescending(t => t.Moment).FirstOrDefault();
-                if (latestTransaction != null)
+
+                if (latestTransaction == null || moment < latestTransaction.Moment)
                 {
-                    return moment < latestTransaction.Moment;
+                    return false;
                 }
             }
+
             return false;
+        }
+
+        public static bool LogStringToDateTime(string logLine, out DateTime moment)
+        {
+            moment = DateTime.MinValue;
+            if (logLine.Length <= 20 || !DateTime.TryParse(logLine.Substring(2, 16), out moment))
+            {
+                return false;
+            }
+
+            if (moment > DateTime.Now)
+            {
+                moment = moment.AddDays(-1);
+            }
+
+            return true;
         }
 
         public static GoldRewardViewModel CreateReward(string logLine)
