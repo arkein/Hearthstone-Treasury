@@ -88,6 +88,10 @@ namespace Hearthstone_Treasury
                 }
                 else
                 {
+                    if (_mainWindow.WindowState == WindowState.Minimized)
+                    {
+                        _mainWindow.WindowState = WindowState.Normal;
+                    }
                     _mainWindow.Activate();
                 }
             };
