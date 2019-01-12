@@ -136,11 +136,11 @@
     <Compile Include="Enums\CategoryEnum.cs" />
     <Compile Include="Enums\OriginEnum.cs" />
     <Compile Include="Enums\RewardType.cs" />
+    <Compile Include="GameplayLogHandler.cs" />
     <Compile Include="HearthstoneTreasuryPlugin.cs" />
     <Compile Include="Models\Achievement.cs" />
     <Compile Include="Models\AchievementDbf.cs" />
     <Compile Include="Models\HardcodedAchievements.cs" />
-    <Compile Include="RachelleLogHandler.cs" />
     <Compile Include="Utils\AchieveParser.cs" />
     <Compile Include="Utils\Localization.cs" />
     <Compile Include="ViewModels\BalanceReportViewModel.cs" />
