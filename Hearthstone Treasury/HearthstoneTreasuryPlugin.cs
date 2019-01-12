@@ -75,7 +75,7 @@ namespace Hearthstone_Treasury
             var transactions = TransactionHelper.LoadTransactions(TransactionsFile) ?? new ReactiveList<TransactionViewModel>() { ChangeTrackingEnabled = true };
             var transactionList = new TransactionListViewModel(transactions);
 
-            var logHandler = new RachelleLogHandler(_achievementProvider, transactionList);
+            var logHandler = new GameplayLogHandler(_achievementProvider, transactionList);
 
             _mainWindowModel = new MainWindowViewModel(Settings, transactionList);
 
@@ -96,7 +96,7 @@ namespace Hearthstone_Treasury
                 }
             };
 
-            Hearthstone_Deck_Tracker.API.LogEvents.OnRachelleLogLine.Add(logHandler.HandleRachelleLogUpdate);
+            Hearthstone_Deck_Tracker.API.LogEvents.OnGameplayLogLine.Add(logHandler.HandleGameplayLogUpdate);
         }
 
         private AchievementProvider CreateNewAchievementProvider()

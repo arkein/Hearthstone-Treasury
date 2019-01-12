@@ -34,10 +34,11 @@
   <ItemGroup>
     <Reference Include="De.TorstenMandelkow.MetroChart, Version=1.0.0.0, Culture=neutral, PublicKeyToken=d5b8d1bbc99c4a2a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Hearthstone-Deck-Tracker\Hearthstone Deck Tracker\bin\Debug\De.TorstenMandelkow.MetroChart.dll</HintPath>
+      <HintPath>..\ThirdParty\Hearthstone-Deck-Tracker\v1.7.16-x86\De.TorstenMandelkow.MetroChart.dll</HintPath>
     </Reference>
-    <Reference Include="HearthstoneDeckTracker">
-      <HintPath>..\..\Hearthstone-Deck-Tracker\Hearthstone Deck Tracker\bin\Debug\HearthstoneDeckTracker.exe</HintPath>
+    <Reference Include="HearthstoneDeckTracker, Version=1.7.16.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ThirdParty\Hearthstone-Deck-Tracker\v1.7.16-x86\HearthstoneDeckTracker.exe</HintPath>
     </Reference>
     <Reference Include="MahApps.Metro, Version=1.1.2.0, Culture=neutral, PublicKeyToken=f4fb5a3c4d1e5b4f, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.1.1.2.0\lib\net45\MahApps.Metro.dll</HintPath>
@@ -135,11 +136,11 @@
     <Compile Include="Enums\CategoryEnum.cs" />
     <Compile Include="Enums\OriginEnum.cs" />
     <Compile Include="Enums\RewardType.cs" />
+    <Compile Include="GameplayLogHandler.cs" />
     <Compile Include="HearthstoneTreasuryPlugin.cs" />
     <Compile Include="Models\Achievement.cs" />
     <Compile Include="Models\AchievementDbf.cs" />
     <Compile Include="Models\HardcodedAchievements.cs" />
-    <Compile Include="RachelleLogHandler.cs" />
     <Compile Include="Utils\AchieveParser.cs" />
     <Compile Include="Utils\Localization.cs" />
     <Compile Include="ViewModels\BalanceReportViewModel.cs" />
