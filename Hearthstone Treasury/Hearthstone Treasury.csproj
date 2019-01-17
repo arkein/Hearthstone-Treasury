@@ -136,7 +136,7 @@
     <Compile Include="Enums\CategoryEnum.cs" />
     <Compile Include="Enums\OriginEnum.cs" />
     <Compile Include="Enums\RewardType.cs" />
-    <Compile Include="GameplayLogHandler.cs" />
+    <Compile Include="AchievementsLogHandler.cs" />
     <Compile Include="HearthstoneTreasuryPlugin.cs" />
     <Compile Include="Models\Achievement.cs" />
     <Compile Include="Models\AchievementDbf.cs" />

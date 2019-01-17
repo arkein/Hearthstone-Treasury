@@ -53,11 +53,11 @@ namespace Tests
             };
             var provider = CreateDbfProvider();
             var transactionList = new TransactionListViewModel(new ReactiveList<TransactionViewModel>());
-            var handler = new GameplayLogHandler(provider, transactionList);
+            var handler = new AchievementsLogHandler(provider, transactionList);
 
             foreach (var logline in loglines)
             {
-                handler.HandleGameplayLogUpdate(logline);
+                handler.HandleAchievementsLogUpdate(logline);
             }
 
             Assert.That(transactionList.Transactions.Count, Is.EqualTo(3));
@@ -94,18 +94,18 @@ namespace Tests
             };
             var provider = CreateDbfProvider();
             var transactionList = new TransactionListViewModel(new ReactiveList<TransactionViewModel>());
-            var handler = new GameplayLogHandler(provider, transactionList);
+            var handler = new AchievementsLogHandler(provider, transactionList);
 
             foreach (var logline in loglines)
             {
-                handler.HandleGameplayLogUpdate(logline);
+                handler.HandleAchievementsLogUpdate(logline);
             }
 
             Assert.That(transactionList.Transactions.Count, Is.EqualTo(3));
 
             foreach (var logline in loglines)
             {
-                handler.HandleGameplayLogUpdate(logline);
+                handler.HandleAchievementsLogUpdate(logline);
             }
 
             Assert.That(transactionList.Transactions.Count, Is.EqualTo(3));
@@ -132,7 +132,7 @@ namespace Tests
         [Test]
         public void GoldRewardExtendedRegexTest() {
             string singleLogLine = @"D 23:12:35.5158504 RewardUtils.GetViewableRewards() - processing reward [GoldRewardData: Amount=40 Origin=ACHIEVEMENT OriginData=39]";
-            var reward = GameplayLogHandler.CreateReward(singleLogLine);
+            var reward = AchievementsLogHandler.CreateReward(singleLogLine);
 
             Assert.That(reward.Amount == 40);
             Assert.That(reward.Origin == Hearthstone_Treasury.Enums.OriginEnum.ACHIEVEMENT);
@@ -147,7 +147,7 @@ namespace Tests
 
             string singleLogLine = @"D 23:12:35.5158504 RewardUtils.GetViewableRewards() - processing reward [GoldRewardData: Amount=40 Origin=ACHIEVEMENT OriginData=39]";
 
-            var reward = GameplayLogHandler.CreateReward(singleLogLine);
+            var reward = AchievementsLogHandler.CreateReward(singleLogLine);
 
             provider.ProvideComment(reward);
 

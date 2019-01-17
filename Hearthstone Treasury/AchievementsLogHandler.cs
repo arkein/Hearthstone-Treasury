@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 
 namespace Hearthstone_Treasury
 {
-    public class GameplayLogHandler
+    public class AchievementsLogHandler
     {
         /// <summary>
         /// Copied form Hearthstone_Deck_Tracker.HsLogReaderConstants.GoldRewardRegex, extended with Origin info
@@ -15,13 +15,13 @@ namespace Hearthstone_Treasury
         private AchievementProvider _provider;
         private TransactionListViewModel _transactionList;
 
-        public GameplayLogHandler(AchievementProvider provider, TransactionListViewModel list)
+        public AchievementsLogHandler(AchievementProvider provider, TransactionListViewModel list)
         {
             _provider = provider;
             _transactionList = list;
         }
 
-        public void HandleGameplayLogUpdate(string logLine)
+        public void HandleAchievementsLogUpdate(string logLine)
         {
             if (GoldRewardExtendedRegex.IsMatch(logLine))
             {
@@ -49,7 +49,7 @@ namespace Hearthstone_Treasury
         }
 
         /// <summary>
-        /// Prevents completely duplicated transactions which are sometimes invoked by HDT Gameplay log handler.
+        /// Prevents completely duplicated transactions which are sometimes invoked by HDT Achievements log handler.
         /// </summary>
         /// <param name="transaction">Transaction to check for duplication</param>
         /// <returns>true if already in the list</returns>
